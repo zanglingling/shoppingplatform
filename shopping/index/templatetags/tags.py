@@ -10,7 +10,7 @@ import urllib
 
 register = template.Library()
 
-
+#
 @register.inclusion_tag('shop/refferral_good.html')
 def new_goods(cid=None):
     if cid:

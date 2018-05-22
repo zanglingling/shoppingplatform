@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 import uuid
 
-
+#中间件给用户设置cookie
 class ShoppingGiveCookie(object):
     def __init__(self, get_response):
         self.get_response = get_response

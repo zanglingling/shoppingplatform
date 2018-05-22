@@ -3,6 +3,8 @@
 
 from utils.cachebase import BaseRedis
 
+
+# 缓存购物车记录
 class GoodsBrowseCache(BaseRedis):
     key = 'user_browse_{0}'
 

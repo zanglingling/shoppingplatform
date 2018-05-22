@@ -7,7 +7,6 @@ from shop_order.models import OrderMain, OrderDetail
 from django.http import JsonResponse
 from django.db import transaction
 from utils.error import StockException
-
 import uuid
 from django.contrib.auth.views import redirect_to_login
 
@@ -78,7 +77,7 @@ class ShowCarGoods(View):
                             raise StockException(message)
                         orderdetail.count = goods.buy_num
                         orderdetail.goods_total = float(goods.buy_num * goods.goods.price)
-                        total+=orderdetail.goods_total
+                        total += orderdetail.goods_total
                         orderdetail.save()
                         ShoppingCar.objects.filter(id=goods.id).delete()
                     ordermain.total = total
@@ -105,13 +104,8 @@ class DelCarGoods(View):
 
 class UpdateCarGoods(View):
     def get(self, request, gid):
-        """
-                    返回一个json字符串，格式如下：
-                    {
-                        "code": 0
-                    }
-                     code: 0为正常，1为库存不足
-                """
+        # 返回一个json字符串，格式如下： {"code": 0}
+        #  code: 0为正常，1为库存不足
         buy_num = int(request.GET.get('buy_num'))
         res = {
             'code': 0

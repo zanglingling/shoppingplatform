@@ -8,6 +8,7 @@ from django.db.models import F
 from django.db import transaction
 
 
+# 触发器，在订单详情保存时触发
 @receiver(pre_save, sender=OrderMain)
 def order_singoal(sender, **kwargs):
     order = kwargs['instance']
